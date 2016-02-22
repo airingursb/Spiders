@@ -15,13 +15,14 @@ item = {}
 for mongo in mongos:
     item['http'] = 'http://' + str(mongo['proxy'])
     proxy = dict(item)
+    proxy = {'http': 'http://kagami:kagami@117.71.120.68:3050'}
     print proxy
     try:
         html = requests.get("http://baidu.com", proxies=proxy)
         print 'success:' + str(mongo['proxy'])
-        f = open('proxy.txt', 'a')
-        f.writelines('  ' + mongo['proxy'] + ', \n')
-        f.close()
+        # f = open('proxy.txt', 'a')
+        # f.writelines('  ' + mongo['proxy'] + ', \n')
+        # f.close()
 
     except:
         print 'error:' + str(mongo['proxy'])

@@ -1,5 +1,6 @@
 import random
 import pymongo
+import base64
 from settings import MONGODB_HOST, MONGODB_PORT, MONGODB_DBNAME
 
 
@@ -31,10 +32,12 @@ class ProxyMiddleware(object):
                     + ip['port'].replace('\r', '').replace('\n', '').replace('\t', '')
             proxy_list.append(proxy)
 
-        proxy = random.choice(proxy_list)
-        # proxy = "116.228.143.200:80"
+        # proxy = random.choice(proxy_list)
+        proxy = "117.71.120.68:3050"
         print(proxy)
         request.meta['proxy'] = "http://%s" % proxy
+        encoded_user_pass = base64.encodestring('kagami')
+        request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
 
     def process_exception(self, request, exception, spider):
         try:
