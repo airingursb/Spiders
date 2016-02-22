@@ -15,4 +15,3 @@ class DoubanItem(Item):
     movieInfo = Field()
     star = Field()
     quote = Field()
-    pass
