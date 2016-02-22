@@ -18,7 +18,6 @@ class CnproxyPipeline(object):
         self.post = tdb[settings['MONGODB_DOCNAME']]
         self.post.remove()
 
-
     def process_item(self, item, spider):
         proxyInfo = dict(item)
         self.post.insert(proxyInfo)

@@ -14,3 +14,4 @@ class CnproxyItem(Item):
     ip = Field()
     port = Field()
     anonymous = Field()
+    proxy = Field()
