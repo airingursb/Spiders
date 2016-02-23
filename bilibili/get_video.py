@@ -25,7 +25,7 @@ head = {
 
 time1 = time.time()
 
-for i in range(3000000, 3100000):
+for i in range(3000000, 3300000):
     url = 'http://bilibili.com/video/av' + str(i)
     urls.append(url)
 
@@ -38,16 +38,50 @@ def spider(url):
         title = each.xpath('//div[@class="v-title"]/h1/@title')
         if title:
             av = url.replace("http://bilibili.com/video/av", "")
-            title = each.xpath('//div[@class="v-title"]/h1/@title')[0]
-            tminfo1 = each.xpath('//div[@class="tminfo"]/a/text()')[0]
-            tminfo2 = each.xpath('//div[@class="tminfo"]/span[1]/a/text()')[0]
-            tminfo3 = each.xpath('//div[@class="tminfo"]/span[2]/a/text()')[0]
+            title = title[0]
+            tminfo1_log = each.xpath('//div[@class="tminfo"]/a/text()')
+            tminfo2_log = each.xpath('//div[@class="tminfo"]/span[1]/a/text()')
+            tminfo3_log = each.xpath('//div[@class="tminfo"]/span[2]/a/text()')
+            if tminfo1_log:
+                tminfo1 = tminfo1_log[0]
+            else:
+                tminfo1 = ""
+            if tminfo2_log:
+                tminfo2 = tminfo2_log[0]
+            else:
+                tminfo2 = ""
+            if tminfo3_log:
+                tminfo3 = tminfo3_log[0]
+            else:
+                tminfo3 = ""
             tminfo = tminfo1 + '-' + tminfo2 + '-' + tminfo3
-            time = each.xpath('//div[@class="tminfo"]/time/i/text()')[0]
-            mid = each.xpath('//div[@class="b-btn f"]/@mid')[0]
-            name = each.xpath('//div[@class="usname"]/a/@title')[0]
-            article = each.xpath('//div[@class="up-video-message"]/div[1]/text()')[0].replace(u"投稿：","")
-            fans = each.xpath('//div[@class="up-video-message"]/div[2]/text()')[0].replace(u"粉丝：","")
+            time_log = each.xpath('//div[@class="tminfo"]/time/i/text()')
+            mid_log = each.xpath('//div[@class="b-btn f"]/@mid')
+            name_log = each.xpath('//div[@class="usname"]/a/@title')
+            article_log = each.xpath('//div[@class="up-video-message"]/div[1]/text()')
+            fans_log = each.xpath('//div[@class="up-video-message"]/div[2]/text()')
+
+            if time_log:
+                time = time_log[0]
+            else:
+                time = ""
+            if mid_log:
+                mid = mid_log[0]
+            else:
+                mid = ""
+            if name_log:
+                name = name_log[0]
+            else:
+                name = ""
+            if article_log:
+                article = article_log[0].replace(u"投稿：","")
+            else:
+                article = "-1"
+            if fans_log:
+                fans = fans_log[0].replace(u"粉丝：","")
+            else:
+                fans = "-1"
+
             tag1_log = each.xpath('//ul[@class="tag-list"]/li[1]/a/text()')
             tag2_log = each.xpath('//ul[@class="tag-list"]/li[2]/a/text()')
             tag3_log = each.xpath('//ul[@class="tag-list"]/li[3]/a/text()')
@@ -78,10 +112,10 @@ def spider(url):
                 video_info = requests.get(info_url)
                 video_selector = etree.HTML(video_info.text)
                 for video_each in video_selector:
-                    click_log = video_each.xpath('//click/text()')[0]
-                    danmu_log = video_each.xpath('//danmu/text()')[0]
-                    coins_log = video_each.xpath('//coins/text()')[0]
-                    favourites_log = video_each.xpath('//favourites/text()')[0]
+                    click_log = video_each.xpath('//click/text()')
+                    danmu_log = video_each.xpath('//danmu/text()')
+                    coins_log = video_each.xpath('//coins/text()')
+                    favourites_log = video_each.xpath('//favourites/text()')
                     duration_log = video_each.xpath('//duration/text()')
                     honor_click_log = video_each.xpath('//honor[@t="click"]/text()')
                     honor_coins_log = video_each.xpath('//honor[@t="coins"]/text()')
@@ -100,10 +134,22 @@ def spider(url):
                     else:
                         honor_favourites = 0
 
-                    click = click_log
-                    danmu = danmu_log
-                    coins = coins_log
-                    favourites = favourites_log
+                    if click_log:
+                        click = click_log[0]
+                    else:
+                        click = -1
+                    if danmu_log:
+                        danmu = danmu_log[0]
+                    else:
+                        danmu = -1
+                    if coins_log:
+                        coins = coins_log[0]
+                    else:
+                        coins = -1
+                    if favourites_log:
+                        favourites = favourites_log[0]
+                    else:
+                        favourites = -1
                     if duration_log:
                         duration = duration_log[0]
                     else:
